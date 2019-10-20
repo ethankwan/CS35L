@@ -1,0 +1,16 @@
+SHA256:rIluscSb3k+N8BFWq4MJY8/aaUUbyzvoqV/Nk2ipdb8 root@beaglebone
+The key's randomart image is:
++---[RSA 2048]----+
+|          .      |
+|         . .     |
+|    +   = .      |
+|   . = B *       |
+|   .  * S        |
+|    ++ O @ .     |
+|   .o=B % B      |
+|   .=+ B o o     |
+|   o+o*..   E.   |
++----[SHA256]-----+
+
+10.97.85.107
+10.97.85.98

@@ -1,0 +1,54 @@
+Ethan Kwan
+004899710
+Homework 3
+
+Q1.
+
+The patch from Message #10 improves the performance of command ls.
+If the option -A is added after -a, it makes sense that it should
+overwrite.
+time ./coreutilsInstall/bin/ls
+.004s
+time ./usr/src/ls
+.001s
+But in regards to time efficiency, the unpatched version is faster.
+
+Q2.
+
+Some problems that could be encountered with a new adoption of the
+patched version of Coreutils is the fact that personnel could be
+accustomed to the old version's syntax, or that the existing application is
+reliant on outdated syntax.
+
+Q3.
+
+wget https://web.cs.ucla.edu/classes/winter19/cs35L/assign/randline.py
+ - downloaded the python script randline
+python randline.py /dev/null
+ - call randline.py on empty file
+Output:
+
+Traceback (most recent call last):
+  File "./randline.py", line 70, in <module>
+    main()
+  File "./randline.py", line 64, in main
+    sys.stdout.write(generator.chooseline())
+  File "./randline.py", line 34, in chooseline
+    return random.choice(self.lines)
+  File "/usr/lib64/python2.7/random.py", line 274, in choice
+    return seq[int(self.random() * len(seq))]  # raises IndexError
+    if seq is empty 
+The script tries to read from the file and index the elements. Because
+seq is empty, it encounters the Index Error. 
+
+Q4.
+
+python3 randline.py /dev/null
+  File "randline.py", line 65
+    except IOError as (errno, strerror):
+                      ^
+SyntaxError: invalid syntax
+
+Python3 modified the way tuples are unpacked, so
+(errno, strerror) results in error because it is treated as a tuple.
+ 

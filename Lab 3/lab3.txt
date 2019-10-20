@@ -1,0 +1,84 @@
+Ethan Kwan
+004899710
+CS35L Lab 8
+Assignment 3
+
+1. First I used wget to download the Coreutils 8.29 source code tarball.  
+   I downloaded the signature and GNU keyring. 
+   I verified them using
+   --verify --keyring ./gnu-keyring.gpg coreutils-8.29.tar.xz.sig
+   in my directory. 
+
+2. I created ~/coreutilsInstall using mkdir and decompressed coreutils. 
+   I read through the INSTALL file and used pwd on ~/coreutilsInstall and added
+   the absolute path as the prefix for configure. 
+   ./configure --prefix=/u/cs/ugrad/ethank/coreutilsInstall
+      checks many conditions and lists yes or no 
+   make - builds all the executable files for the patch
+   make install - installs all the files into coreutilsInstall 
+
+3. cd ~/coreutilsInstall/bin 
+   ./ls, bug is recreated
+
+4. Return to the coreutils-8.29 directory,
+   touch patch_file, copy the text from Message 10
+   patch -p1 < patch_file 
+   Hunk 1 succeeded
+   Run make
+
+make  all-recursive
+make[1]: Entering directory
+ `/w/home.12/cs/ugrad/ethank/coreutilsInstall/coreutils-8.29'
+Making all in po
+make[2]: Entering directory
+ `/w/home.12/cs/ugrad/ethank/coreutilsInstall/coreutils-8.29/po'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory
+ `/w/home.12/cs/ugrad/ethank/coreutilsInstall/coreutils-8.29/po'
+Making all in .
+make[2]: Entering directory
+ `/w/home.12/cs/ugrad/ethank/coreutilsInstall/coreutils-8.29'
+make[2]: Leaving directory
+ `/w/home.12/cs/ugrad/ethank/coreutilsInstall/coreutils-8.29'
+Making all in gnulib-tests
+make[2]: Entering directory
+ `/w/home.12/cs/ugrad/ethank/coreutilsInstall/coreutils-8.29/gnulib-tests'
+make  all-recursive
+make[3]: Entering directory
+ `/w/home.12/cs/ugrad/ethank/coreutilsInstall/coreutils-8.29/gnulib-tests'
+Making all in .
+make[4]: Entering directory
+ `/w/home.12/cs/ugrad/ethank/coreutilsInstall/coreutils-8.29/gnulib-tests'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory
+ `/w/home.12/cs/ugrad/ethank/coreutilsInstall/coreutils-8.29/gnulib-tests'
+make[3]: Leaving directory
+ `/w/home.12/cs/ugrad/ethank/coreutilsInstall/coreutils-8.29/gnulib-tests'
+make[2]: Leaving directory
+ `/w/home.12/cs/ugrad/ethank/coreutilsInstall/coreutils-8.29/gnulib-tests'
+make[1]: Leaving directory
+ `/w/home.12/cs/ugrad/ethank/coreutilsInstall/coreutils-8.29'
+
+Much fewer files compiled after applying the patch. Not as many leaving/enter
+commands
+The make all-recursive command looks through directories inside coreutils-8.29
+to determine if any of the source files were altered after the patch. Changes
+made to the gnulib-tests folder. Essentially only select files were recompiled
+according to the patch's changes. Make install not used for patch so 
+that the broken version is in coreutilsInstall/bin, while 
+coreutils-8.29/src has the fixed version.
+
+   Test:
+   cd  ~/coreutilsInstall/bin 
+   ls -a -A 
+   .
+   .. appear in output
+
+   cd ~/coreutilsInstall/coreutils-8.29/src
+   ls -a -A 
+   . 
+   .. do not appear in output 
+
+   Bug Fixed!
+
+

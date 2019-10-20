@@ -1,0 +1,80 @@
+Ethan Kwan
+004899710
+Lab 2 - Shell Scripting
+
+1. First changed my locale settings to 'C' using export LC_ALL='C'
+2. Then I sorted the file /usr/share/dict/words into words.txt in my working 
+directory.
+   sort /usr/share/dict/words > words
+3. I used wget to download the webpage, saved as assign2.html
+4. Output:
+
+   tr -c 'A-Za-z' '[\n*]' 
+   All characters not within the range A-Z or a-z are turned into empty lines
+
+   tr -cs 'A-Za-z' '[\n*]'
+   Prints all letters within A-Z or a-z but the empty lines from the previous 
+   command are missing
+   
+   tr -cs 'A-Za-z' '[\n*]' | sort
+   Sorts the previous command's output by line, uppercase letters first 
+
+   tr -cs 'A-Za-z' '[\n*]' | sort -u
+   Removes duplicate words from the list.
+
+   tr -cs 'A-Za-z' '[\n*]' | sort -u | comm - words
+   Lists words unique to assign2.html in one column, prints all words unique to
+   words file 
+
+   tr -cs 'A-Za-z' '[\n*]' | sort -u | comm -23 - words
+   Lists words unique to assign2.html but does not print text from words
+
+5. wget http://mauimapp.com/moolelo/hwnwdseng.htm
+
+6. Buildwords:
+   grep '<td>.\{1,\}<\/td>' - Selects lines that start with <td> and end
+   with <\td>
+
+   sed -n '1~2!p' - takes every other line. according to formatting of html
+   it will only select Hawaiian words
+
+   tr "A-Z/`" "a-z\'" - replaces all instances of ` with '
+
+   sed 's/<[^>]*>//g' | \ - removes all html tags 
+
+   sed "s/^\s*//g" | \ - removes all spaces
+
+   grep "^[pk\' mnwlhaeiou]\{1,\}$" | \ - checks letters for Hawaiian 
+   convention
+
+   sort -u - sorts words and removes duplicates
+
+7. chmod +x buildwords
+   cat hwnwdseng.htm | ./buildwords > hwords
+
+8. Checking Work
+   A. Misspelled English
+      tr -cs 'A-Za-z' '[\n*]' < assign2.html | tr 'A-Z' 'a-z' | sort -u | comm -23 - words > misspelledEng
+
+      wc -w misspelledEng 
+      42 misspelledEng
+   42 misspelled words in English 
+
+   B. Misspelled Hawaiian
+      tr -cs "pk\'mnwlhaeiouPKMNWLHAEIOU" '[\n*]' < assign2.html | tr 'PKMNWLHAEIOU' 'pkmnwlhaeiou' | sort -u | comm -23 - hwords > misspelledHawaiian
+
+      wc -w misspelledHawaiian
+      213 misspelledHawaiian
+   213 misspelled words in Hawaiian
+   
+   C. Misspelled Eng but not Hawaiian
+      tr -cs "pk\'mnwlhaeiou" '[\n*]' < misspelledEnglish | sort -u | comm -12 - hwords > misspelledEngHai
+     
+      cat misspelledEngHai
+      Examples: e, halau, i, lau, po, wiki
+
+   D. Misspelled Hawaiian but not Eng
+      tr -cs 'A-Za-z' '[\n*]' < misspelledHawaiian | sort -u | comm -12 - words > misspelledHaiEng
+
+      Examples: a, ail, ain, ake, al, ale, alen, all, am, amp, ample, an, aph
+

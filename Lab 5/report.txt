@@ -1,0 +1,119 @@
+Ethan Kwan
+004899710
+Lab 5
+
+1. 
+I did not know how to read arguments passed in from the command line.
+Found that using the parameters int argc and char** argv in in the 
+main routine permits access to the number of arguments and 
+the argument vector (strings in this case).
+
+2. 
+Once I figured out how to read the input in, implementing 
+getchar, putchar, read and write to transliterate the characters was 
+simple. I checked if from and to were equal using strlen. Then 
+I looped through from to check for duplicate bytes. I used 
+a temp int variable = getchar and used EOF as the condition for tr2b and 
+I checked if read(buffer) returned 0 as the condition for tr2u.
+
+3.
+Check scripts:
+make tr2b
+make tr2u
+echo 'teststring' | ./tr2b 't' 's'
+sessssring 
+echo 'teststring' | ./tr2u 't' 's'
+sessssring
+
+Both have consistent output!
+
+4. 
+System Calls Comparison
+man strace
+-o allows the name of each system call, arguments and return value 
+of the specified command to be printed to a file
+-c tells strace to creae a summary of the number/type of system calls 
+
+Input:
+strace -c -o test1.txt ./tr2b '?#' 'xy' < input.txt > resultb.txt
+   Buffered output to file
+   611 write calls, 613 read calls 
+strace -c -o test2.txt ./tr2u '?#' 'xy' < input.txt > resultu.txt
+   Unbuffered output to file
+   5000000 write calls, 5000002 read calls
+strace -c -o test3.txt ./tr2b '?#' 'xy' < input.txt
+   Buffered output to terminal
+   19872 write calls, 613 read calls
+   Same number of read calls, but increased number of write calls to 
+   print to terminal
+strace -c -o test4.txt ./tr2u '?#' 'xy' < input.txt
+   Unbuffered output to terminal
+   5000000 write calls, 5000002 read calls 
+
+5.
+Time Testing
+input:
+time cat input.txt | ./tr2b '?#' 'xy' > resultb.txt
+   buffered copying to file
+output:
+real    0m0.231s
+user    0m0.179s
+sys     0m0.050s
+
+input:
+time cat input.txt | ./tr2u '?#' 'xy' > resultu.txt
+   unbuffered copying to file
+output:
+real    0m9.880s
+user    0m1.277s
+sys     0m8.619s
+
+input:
+time cat input.txt | ./tr2b '?#' 'xy'
+   buffered copying to terminal
+output:
+real    0m1.346s
+user    0m0.418s
+sys     0m0.162s
+
+intput:
+time cat intput.txt | ./tr2u '?#' 'xy'
+   unbuffered copying to terminal
+output:
+real    0m10.329s
+user    0m1.245s
+sys     0m8.904s
+
+Clearly using a buffered I/O performs faster than 
+repeated system calls. 
+ 
+ 
+Time testing:
+
+time printf '*~BO *{_CIA *hXE]D *LER #@_GZY #E\\OX #^BO #FKPS #NEM\4' | ./sfrob
+       real   0m0.016
+       user   0m0.002s
+       sys    0m0.003s
+time printf '*~BO *{_CIA *hXE]D *LER #@_GZY #E\\OX #^BO #FKPS #NEM\4'
+ | ./sfrobu
+       real   0m0.005s
+       user   0m0.000s
+       sys    0m0.005s 
+      
+time printf '*~BO *{_CIA *hXE]D *LER #@_GZY #E\\OX #^BO #FKPS #NEM\4'
+ |  ./sfrobs
+       real   0m0.005s
+       user   0m0.002s
+       sys    0m0.007s
+time printf '*~BO *{_CIA *hXE]D *LER #@_GZY #E\\OX #^BO #FKPS #NEM\4'
+ |  ./sfrobu -f
+       real   0m0.002s
+       user   0m0.003s
+       sys    0m0.001s       
+
+time printf '*~BO *{_CIA *hXE]D *LER #@_GZY #E\\OX #^BO #FKPS #NEM\4'
+ | ./sfrobs -f
+       real   0m0.005s
+       user   0m0.002s
+       sys    0m0.008s
+       

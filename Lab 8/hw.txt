@@ -1,0 +1,22 @@
+Ethan Kwan 
+004899710 
+Lab 8 - HW
+
+1. 
+Yes the network would still be secure, even if the other teams had been
+observing all the bytes moving across the network. Because they do
+not have access to our private keys, attackers would not be able to
+complete the data decryption. 
+If the attackers gained keyboard access AFTER our server/client setup, 
+the server would still be secure. Unless they had access to our keystrokes
+while we were setting up our key pairs, they would still be unable to 
+decrypt our data. 
+But, if they had USB access, they could easily access our .ssh directory 
+and acquire the public/private key pair. 
+
+2.
+From my testing, gpg2--verify seems to be unable to determine ownership of 
+data. It compares decrypted signature using public key, to another set of 
+decrypted data. An invader could generate a signature using their own public
+key. --verify then uses the new public key it's been given to decrypt 
+the new signature, which will match despite the corruption. 

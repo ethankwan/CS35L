@@ -1,0 +1,55 @@
+Ethan Kwan
+004899710
+Lab 6
+
+1. 
+export PATH=/usr/local/cs/bin:$PATH
+
+2. 
+od -An -t fF -N 40000000 < /dev/urandom > floating.txt
+Powerpoint asked for 10M floating point numbers,
+each float takes 4 bytes, so count = 40,000,000 bytes read
+
+tr -s ' ' '\n' < floating.txt > float.txt
+Translate each space ' ' to a newline '\n' to separate each number by 
+newline
+
+3. Time Tests
+No threading:
+
+time -p sort -g float.txt > /dev/null 
+real 20.74 
+user 114.27
+sys 0.53
+
+1 thread:
+
+time -p sort -g --parallel=1 float.txt > /dev/null
+real 103.05
+user 102.84
+sys 0.19
+
+2 threads:
+
+time -p sort -g --parallel=2 float.txt > /dev/null
+real 55.83
+user 106.01
+sys 0.24
+
+4 threads:
+
+time -p sort -g --parallel=4 float.txt > /dev/null
+real 32.00
+user 107.67
+sys 0.44
+
+8 threads:
+
+time -p sort -g --parallel=8 float.txt > /dev/null
+real 20.97
+user 114.42
+sys 0.54
+
+User time stays relatively constant despite the changes.
+Real time clearly decreases as the number of threads increases.
+Sys time increases with the use of more threads.

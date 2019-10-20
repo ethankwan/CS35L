@@ -1,0 +1,106 @@
+Ethan Kwan
+004899710
+Lab 4 
+
+1. Transfered tarball into local directory and unpacked with 
+   tar -xzvf coreutils-with-bug.tar.gz then cd into coreutils-with-bug
+2. Used ./configure and make, after which receiving an error:
+     "utimens.h:2:5: error: conflicting types for 'futimens'"
+3. patch -p0 < coreutils.diff 
+   the patch command runs from the root directory of coreutils-withbug
+   patching file lib/utimens.c
+   patching file lib/utimens.h
+   patching file src/copy.c
+   patching file src/tee.c
+   patching file src/touch.c
+4. Created directory for new install, coreutils-with-bugInstall
+   pwd = /u/cs/ugrad/ethank/Documents/CS35L/Lab4/coreutils-with-bugInstall
+   ./configure --prefix="/u/cs/ugrad/ethank/Documents/CS35L/Lab4/
+                         coreutils-with-bugInstall"
+   make
+   make install
+5. It appears that the main change in utimens is that futimens
+   is now renamed to coreutils_futimens, fixing the comile error.
+6.
+Reproduce bug:
+tmp=$(mktemp -d)
+cd $tmp
+touch -d '1918-11-11 11:00 GMT' wwi-armistice
+touch now
+sleep 1
+touch now1
+TZ=UTC0 ~/Documents/CS35L/Lab4/coreutils-with-bugInstall/bin/ls
+   -lt --full-time wwi-armistice now now1
+
+Output:
+-rw-r--r-- 1 ethank csugrad 0 1918-11-11 11:00:00.000000000 +0000 wwi-armistice
+-rw-r--r-- 1 ethank csugrad 0 2019-02-08 01:18:52.526534433 +0000 now1
+-rw-r--r-- 1 ethank csugrad 0 2019-02-08 01:18:46.033317276 +0000 now
+
+The files should be ouput in order of newest to oldest
+(top file should be newest) but the oldest file, made in 1918 is 
+listed as the newest.
+
+7. Entered directory coreutils-with-bug/src
+   Opened ls.c with emacs, looked through structure and used
+   gdb ls 
+   (gdb)b sort_files
+   (gdb)run -lt --full-time
+  
+   Stepping through the switch statements, sort_type is set to sort_time
+   time_type set to time_mtime
+
+   (gdb)p/x sort_reverse
+   $1 = 0x0
+   And sort_reverse is false.
+   (gdb)p/s func
+   $2 = (int (*)(V, V)) 0x4064b0 <compare_mtime> 
+   function compare_mtime is being called, which then leads to a call to
+   timespec_cmp(struct timespec a, struct timespec b) from timespec.h
+   which is supposed to return negative if A< B, 0 if A==B, positive if A>B
+   Upon examining int diff, it can be seen that there is a risk of overflow
+   when a.tv_sec is subtracted by b.tv_sec. 
+
+8.
+   Exit gdb, copy timespec.h to my working directory from coreutils
+   cp coreutils-with-bug/lib/timespec.h timespec.h
+   As the subtraction was creating a risk of overflow, I implemented a 
+   direct comparison in the place of the integer subtraction, preventing
+   signed overflow. 
+
+9.
+Created ChangeLog using C+x 4 a on modified version of timespec.h
+2019-02-07  Ethan W Kwan  <ethank@lnxsrv06.seas.ucla.edu>
+
+        * timespec.h: Uses direct comparison instead of integer subtraction.
+        If seconds are equivalent, return the difference of nanoseconds.
+        This way, signed overflow is prevented.
+
+10. Changed the filepath in lab4.diff from just timespec.h to lib/timespec.h
+    Allowing us to patch from the coreutils-with-bug directory. 
+    patch -p0 <lab4.diff 
+    patching file lib/timespec.h
+    make
+    cd $tmp
+    ~/Documents/CS35L/Lab4/coreutils-with-bug/src/ls -lt --full-time
+    wwi-armistice now now1
+   -rw-r--r-- 1 ethank csugrad 0 2019-02-08 07:21:37.396019575 +0000 now1
+   -rw-r--r-- 1 ethank csugrad 0 2019-02-08 07:21:31.968836345 +0000 now
+   -rw-r--r-- 1 ethank csugrad 0 1918-11-11 11:00:00.000000000 +0000 wwi
+    -armistice
+   After the new patch has been applied the files show up in the 
+   correct order!
+
+11. After reproducing wwi-armistice, now and now 1 in my local dir, 
+   the results are:
+    TZ=UTC0 ls -lt --full-time wwi-armistice now now1
+    -rw-r--r-- 1 ethank csugrad 0 2054-12-17 17:28:16.000000000 +0000 
+      wwi-armistice
+    -rw-r--r-- 1 ethank csugrad 0 2019-02-08 07:32:22.023635000 +0000 now1
+    -rw-r--r-- 1 ethank csugrad 0 2019-02-08 07:31:47.855516000 +0000 now
+   The SEASnet NFS filesystem uses 32-bit timestamps, whereas the local
+   file system uses 64-bit timestamps. As the 32-bit timestamps 
+   are not signed, it struggles to interpret the older files since 
+   they appear as negative. 
+
+      

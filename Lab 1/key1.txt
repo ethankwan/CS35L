@@ -1,0 +1,70 @@
+Ethan Kwan
+004899710
+Lab 1
+CS35L
+
+1.1
+C-s H T M L
+C-s scavenger Enter M-b
+C-s s e l f - r e f e r e n t i a l Enter M-b
+C-s a r r o w Enter M-b
+C-e
+C-a
+I did not use the arrow keys.
+C-x C-c
+
+1.2
+M-x g o t o - l i n e Enter 1 8 Enter
+C-k
+C-s D E L E T E - ME Enter C-a C-k
+C-s h t t p s : / / e n . w i k i p e d i a . o r g / w i k i / Enter C-a C-k
+C-s < ! Enter C-a C-k C-n C-k C-n C-k C-s < ! Enter C-a C-k C-r < ! Enter C-a C-k
+C-x C-c
+
+1.3
+C-s A s s i g n m e n t SP 1 M-% A s s i g n m e n t SP 4 2 Enter y y 
+C-s U T F - 8 M-% U S - A S C I I Enter y
+C-s [ ^ [ : a s c i i : ] ] C-Sp M-b Bcksp 
+C-s < / o l > Enter Enter
+C-x C-s C-x C-c
+
+1.4 
+M-> C-r - < C-Sp C-e M-w C-r < / h t m l > C-n C-y
+M-> C-r - < C-Sp C-n C-n C-n C-n M-w C-r s h o u l d Sp o u t p u t Sp n o t h i n g C-a C-n C-y
+M-> C-r - < C-Sp C-n C-n C-n M-w C-r < h 2 > S u b m i t < / h 2 > C-n C-n C-a C-y
+M-> C-r - < C-Sp C-e M-w C-r H o m e w o r k : Sp L e a r n i n g Sp t o C-n C-y
+M-> C-r - < C-Sp C-n C-n C-n M-w C-r L A B O R A T O R Y C-a C-n C-y 
+C-s - - - C-Sp M-> C-w 
+C--
+M-< M-x r e p l a c e - s t r i n g < o l > Enter < o L > Enter, 7 occurences
+C-x C-c y
+d i f f Sp - u e x e r 1 . h t m l Sp e x e r 4 . h t m l Sp > e x e r 4 . d i f f
+
+1.5
+M-x m a k e - d i r e c t o r y Enter j u n k Enter
+C-x C-f j u n k / h e l l o . c Enter
+#include <stdio.h>
+int
+main (void)
+{
+  char n = '\n', b = '\\', q = '"';
+  char const *p = "#include <stdio.h>%cint%cmain (void)%c{%c  char n = '%cn', b = '%c%c', q = '%c';%c  char const *p = %c%s%c;%c  printf (p, n, n, n, n, b, b, b, q, n, q, p, q, n, n, n, n);%c  return 0;%c}%c";
+  printf (p, n, n, n, n, b, b, b, q, n, q, p, q, n, n, n, n);
+  return 0;
+}
+C-Sp M-> M-w C-x C-f k e y 1 . t x t M-> M-x c l i p b o a r d - y a n k Enter
+
+1.6
+C-x b Enter 
+e v a l u a t e Sp ( r a n d o m Sp " 0 0 4 - 8 9 9 - 7 1 0 " ) C-j
+Output: -752617540973125212
+( s e t q Sp x Sp ( r a n d o m ) ) C-j
+( s e t q Sp y Sp ( r a n d o m ) ) C-j
+Product: -2111913085459688544
+The result should be positive since it is the product of two negative integers
+M-: (* Sp x Sp y ) Enter
+The result is the same but includes octadecimal and hexadecimal places
+The numbers cannot be truly random in a conventional sense because machines 
+cannot express the mathematical definition of infinite numbers due to memory limitation.
+After testing the random integer generator, I found that for every three numbers generated,
+2 will be negative and 1 will be positive. 2/3 * 1/2 = 1/3 probability of correct product

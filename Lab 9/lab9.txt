@@ -1,0 +1,225 @@
+Ethan Kwan
+004899710
+Lab 9
+
+1. $git clone ~/eggert/src/gnu/diffutils
+2. $git log > git-log.txt
+3. $git tag > git-tags.txt
+4. $emacs git-log.txt
+     M-x "search-forward: maint: quote "
+     Copied the commit number
+     C-x C-c
+   $git format-patch -1 62ca21c8c1a5aa3488589dcb191a4ef04ae9ed4f --stdout 
+    > quote-patch.txt
+5. Need to go to version 3.0
+   $git checkout v3.0   
+6. 
+$patch -p1 < quote-patch.txt
+File to patch: RETURN
+RETURN: No such file or directory
+Skip this patch? [y] y
+Skipping patch.
+9 out of 9 hunks ignored
+patching file ms/config.bat
+patching file ms/config.site
+Hunk #1 succeeded at 73 with fuzz 1.
+patching file po/en.po
+patching file src/analyze.c
+patching file src/cmp.c
+Hunk #1 succeeded at 36 with fuzz 1.
+Hunk #4 succeeded at 185 (offset -6 lines).
+Hunk #5 succeeded at 231 (offset -6 lines).
+Hunk #6 succeeded at 257 (offset -6 lines).
+Hunk #7 succeeded at 269 (offset -6 lines).
+Hunk #8 succeeded at 364 (offset -6 lines).
+Hunk #9 succeeded at 377 (offset -6 lines).
+patching file src/context.c
+Hunk #1 succeeded at 159 (offset 1 line).
+Hunk #2 succeeded at 289 (offset 1 line).
+Hunk #3 succeeded at 393 with fuzz 2 (offset 1 line).
+Hunk #4 succeeded at 431 (offset 1 line).
+Hunk #5 succeeded at 459 (offset 1 line).
+patching file src/diff.c
+Hunk #1 succeeded at 40 with fuzz 2 (offset -2 lines).
+Hunk #2 succeeded at 57 (offset -2 lines).
+Hunk #3 succeeded at 92 (offset -2 lines).
+Hunk #4 succeeded at 330 (offset -10 lines).
+Hunk #5 succeeded at 505 (offset -10 lines).
+Hunk #6 succeeded at 534 (offset -10 lines).
+Hunk #7 succeeded at 585 (offset -14 lines).
+Hunk #8 succeeded at 744 (offset -14 lines).
+Hunk #9 succeeded at 826 (offset -14 lines).
+Hunk #10 FAILED at 876.
+Hunk #11 FAILED at 906.
+Hunk #12 FAILED at 942.
+Hunk #13 succeeded at 960 with fuzz 2 (offset -29 lines).
+Hunk #14 succeeded at 1159 with fuzz 2 (offset -32 lines).
+3 out of 14 hunks FAILED -- saving rejects to file src/diff.c.rej
+patching file src/diff.h
+Hunk #2 succeeded at 126 with fuzz 2 (offset -13 lines).
+Hunk #3 succeeded at 202 (offset -13 lines).
+patching file src/diff3.c
+Hunk #1 succeeded at 35 (offset 1 line).
+Hunk #2 succeeded at 159 (offset 1 line).
+Hunk #3 succeeded at 316 (offset 1 line).
+Hunk #4 succeeded at 351 (offset 1 line).
+Hunk #5 succeeded at 412 (offset 1 line).
+Hunk #6 FAILED at 433.
+Hunk #7 succeeded at 460 with fuzz 2 (offset -18 lines).
+Hunk #8 succeeded at 1275 (offset -18 lines).
+Hunk #9 succeeded at 1475 (offset -18 lines).
+1 out of 9 hunks FAILED -- saving rejects to file src/diff3.c.rej
+patching file src/dir.c
+Hunk #1 succeeded at 84 (offset -1 lines).
+Hunk #2 succeeded at 125 (offset -1 lines).
+Hunk #3 succeeded at 154 (offset -1 lines).
+Hunk #4 succeeded at 234 (offset -1 lines).
+patching file src/ifdef.c
+patching file src/io.c
+patching file src/sdiff.c
+Hunk #2 succeeded at 92 (offset 1 line).
+Hunk #3 succeeded at 175 (offset 23 lines).
+Hunk #4 succeeded at 230 (offset 17 lines).
+Hunk #5 succeeded at 286 (offset 17 lines).
+Hunk #6 succeeded at 572 (offset 13 lines).
+Hunk #7 succeeded at 747 (offset 41 lines).
+patching file src/side.c
+patching file src/system.h
+Hunk #2 succeeded at 105 (offset 6 lines).
+patching file src/util.c
+Hunk #4 succeeded at 190 with fuzz 2.
+Hunk #8 succeeded at 650 (offset -27 lines).
+patching file tests/help-version
+Hunk #1 succeeded at 75 (offset 1 line).
+Hunk #2 succeeded at 85 (offset 1 line).
+Hunk #3 succeeded at 96 (offset 1 line).
+Hunk #4 succeeded at 108 (offset 1 line).
+Hunk #5 succeeded at 140 (offset 1 line).
+Hunk #6 succeeded at 188 (offset 1 line).
+
+7.
+$git status
+ HEAD detached at v3.0
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#       modified:   NEWS
+#       modified:   README
+#       modified:   TODO
+#       modified:   doc/diagmeet.note
+#       modified:   ms/config.bat
+#       modified:   ms/config.site
+#       modified:   po/en.po
+#       modified:   src/analyze.c
+#       modified:   src/cmp.c
+#       modified:   src/context.c
+#       modified:   src/diff.c
+#       modified:   src/diff.h
+#       modified:   src/diff3.c
+#       modified:   src/dir.c
+#       modified:   src/ifdef.c
+#       modified:   src/io.c
+#       modified:   src/sdiff.c
+#       modified:   src/side.c
+#       modified:   src/system.h
+#       modified:   src/util.c
+#       modified:   tests/help-version
+Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#       #lab9.txt#
+#       .#lab9.txt
+#       NEWS.orig
+#       README-hacking.orig
+#       README-hacking.rej
+#       README.orig
+#       README.rej
+#       cfg.mk.orig
+#       cfg.mk.rej
+#       git-log.txt
+#       git-tags.txt
+#       ms/config.site.orig
+#       quote-patch.txt
+#       src/cmp.c.orig
+#       src/context.c.orig
+#       src/diff.c.orig
+#       src/diff.c.rej
+#       src/diff.h.orig
+#       src/diff3.c.orig
+#       src/diff3.c.rej
+#       src/dir.c.orig
+#       src/sdiff.c.orig
+#       src/system.h.orig
+#       src/util.c.orig
+#       tests/help-version.orig
+no changes added to commit (use "git add" and/or "git commit -a")
+
+8. Learned how to use vc-revert(C-x v u) and diff-apply(C-c C-a)
+9. Went to all files modified that do not end in .c and reverted 
+   changed using 
+   emacs [file]
+   C-x v u
+   C-x C-c
+   
+   Then for the .c files, I left the changes to the char consts, but 
+   reverted all other changes. 
+   emacs [src/file]
+   C-x v = (opens diff buffer)
+   Looked through hunks
+   C-u C-c C-a (revert hunk on appropriate ones)
+   C-x C-c 
+   'y'
+10. $ls src/*.c.rej
+    src/diff3.c.rej  src/diff.c.rej
+    Went through diff3.c and diff.c 
+    emacs [file]
+    C-s ` 
+    Replace with '
+11. Remove untracked files
+    $git clean -f 
+12. $git status
+ Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#       modified:   src/cmp.c
+#       modified:   src/diff.c
+#       modified:   src/diff3.c
+#       modified:   src/dir.c
+#       modified:   src/sdiff.c
+#       modified:   src/util.c
+     Now there are half a dozen files modified. 
+13. ./bootstrap 
+    Since I used lnxsrv06, I had to copy the patch into file 
+    gets-patch.txt to removed function 'gets'
+    $patch -p0 < gets-patch.txt 
+      patching src/stdio.in.h
+    ./configure
+    make 
+    make check
+    /bin/sh: /bin/sh: cannot execute binary file
+make[3]: *** [Makefile:1299: basic.log] Error 126
+make[3]: Leaving directory '/w/home.12/cs/ugrad/ethank/Documents/CS35L/Lab9/diffutils/tests'
+make[2]: *** [Makefile:1281: check-TESTS] Error 2
+make[2]: Leaving directory '/w/home.12/cs/ugrad/ethank/Documents/CS35L/Lab9/diffutils/tests'
+make[1]: *** [Makefile:1393: check-am] Error 2
+make[1]: Leaving directory '/w/home.12/cs/ugrad/ethank/Documents/CS35L/Lab9/diffutils/tests'
+    These error messages were printed, but upon checking to see if my 
+    changes to diff were saved:
+    $diff . -
+      diff: cannot compare '-' to a directory
+    The ` is correctly replaced with '.
+    $diff --help
+    All the ` are again replaced with '.
+
+14. Copy modified src folder into diffutils-3.0-patch, reclone diffutils 
+    into diffutils-orig. Going into original diffutils, I copied src 
+    into diffutils-3.0. Then ran diff on the two source codes. 
+    $cp -r src ../diffutils-3.0-patch
+    $git clone ~eggert/src/gnu/diffutils diffutils-orig
+    $cd diffutils-orig
+    $cp -r src ../diffutils-3.0 
+    $cd ..
+    $diffutils/src/diff -pru diffutils-3.0 diffutils-3.0-patch 
+     > quote-3.0-test.txt

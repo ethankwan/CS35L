@@ -1,0 +1,24 @@
+#!/bin/bash
+
+find_extra_utf_header()
+{
+  for file in "$@"
+  do
+    if [[ -d $file ]]; then  
+      cd $file
+      find_ascii $(ls)
+      cd ..
+    else
+      if file -b $file | grep -c -q "ASCII"; then 
+          firstLine=$(head -n 1 $file)
+	  if [ "$firstLine" == "-*- coding: utf-8 -*-" ]; then
+	     echo $file 
+	  fi
+      fi
+    fi
+  done
+}
+
+find_extra_utf_header "$@"
+
+

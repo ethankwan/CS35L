@@ -1,0 +1,33 @@
+Ethan Kwan
+004899710
+HW 9
+
+1. $cd diffutils 
+   $git checkout v3.0 -b quote - new branch named quote
+2. $patch -p1 < quote-3.0-patch.txt
+   patching file src/cmp.c
+   patching file src/diff.c
+   patching file src/diff3.c
+   patching file src/dir.c
+   patching file src/sdiff.c
+   patching file src/util.c
+3.
+  First open emacs to create ChangeLog. 
+  $emacs 
+  C-x 4 a 
+  Copy pasted the desired hunk from the Lab into the ChangeLog.
+  C-x C-s
+  C-x C-c
+4.Use the following commands to commit the changes to the new branch,
+  with commit -F adding ChangeLog as the commit message. 
+  $git add
+  $git commit -F ChangeLog
+5.Create new patch file
+  $git format-patch -1 --stdout > formatted-patch.txt
+6.Partner did not do his work yet, so can't do these steps  
+7.Tried to gitk the Emacs repository's master branch, realized that I 
+  needed to enable X11 Forwarding. So I reopened Putty with X11 enabled,
+  setting the display application to XMing. Then these commands worked:
+  $cd ~eggert/src/gnu/emacs
+  $gitk
+  XMing launched, the description of the screenshot is in gitk-description.
